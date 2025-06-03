@@ -1,0 +1,8 @@
+[
+  { "id": 1, "text": "Maak je bed op", "points": 5 },
+  { "id": 2, "text": "Drink een glas water", "points": 3 },
+  { "id": 3, "text": "Doe 10 jumping jacks", "points": 10 },
+  { "id": 4, "text": "Lees 5 minuten een boek", "points": 7 },
+  { "id": 5, "text": "Zing een liedje", "points": 6 },
+   { "id": 5, "text": "Zing een liedje", "points": 6 }
+]

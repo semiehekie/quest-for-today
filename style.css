@@ -1,0 +1,58 @@
+header {
+    background: linear-gradient(90deg, #4f8cff 0%, #1e3c72 100%);
+    color: #fff;
+    padding: 32px 0;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(30, 60, 114, 0.1);
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+
+header .logo {
+    position: absolute;
+    left: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+header p {
+    margin: 8px 0 0 0;
+    font-size: 1.2rem;
+    font-weight: 400;
+    opacity: 0.85;
+}
+
+header button {
+    background: #fff;
+    color: #1e3c72;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 16px 8px 0 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(30, 60, 114, 0.08);
+    
+}
+
+header button:hover,
+header button:focus {
+    background: #4f8cff;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(30, 60, 114, 0.15);
+    outline: none;
+}
+header .logo img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    display: block;
+}
