@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    
      <link rel="stylesheet" href="style.css">
+     <script src="javascipt/home.js"></script>
+     <script src="javascipt/shop.js" defer></script>
+     <title>quest for today</title>
 </head>
 
 
@@ -11,7 +15,46 @@
     
     <a href="index.html">
         <button>Home</button>
+    </a>
+    <a href="shop.html">
+        <button>Shop</button>
+    </a>
+    <a href="quest.html">
+        <button>Quest</button>
+    </a>
 </header>
-    <iframe src="sections/quest.html" height="600" width="900" title="Example Website"></iframe>
+       <p>Jouw punten: <span id="puntenTeller">...</span></p>
+<section>
+    
+  <h1>🎯 Dagelijkse Quests</h1>
+  <div id="quests">Loading...</div>
+
+  <h2>✅ Voltooide Quests</h2>
+  <ul id="completedQuests"></ul>
+
+  
+
+</section>
+<section>
+  <h1>🎮 Game Shop</h1>
+
+
+
+
+    <div class="product">
+        <h2>GTA vice city</h2>
+        <p>Kost: 1000 punten</p>
+        <button onclick="koopGame('Game 1', 1000, 'https://example.com/game1.zip')">Koop</button>
+    </div>
+
+    <div class="product">
+        <h2>Transport fever 2</h2>
+        <p>Kost: 300 punten</p>
+        <button onclick="koopGame('Game 2', 300, 'https://example.com/game2.zip')">Koop</button>
+    </div>
+</section>
+
+
+    
 </body>
 </html>

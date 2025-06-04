@@ -1,4 +1,18 @@
-header {
+
+     body {
+            font-family: sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        .product {
+            background: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+  header {
     background: linear-gradient(90deg, #4f8cff 0%, #1e3c72 100%);
     color: #fff;
     padding: 32px 0;
@@ -56,17 +70,3 @@ header .logo img {
     object-fit: contain;
     display: block;
 }
-
-  body {
-            font-family: sans-serif;
-            background-color: #f2f2f2;
-            padding: 20px;
-        }
-
-        .product {
-            background: white;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
