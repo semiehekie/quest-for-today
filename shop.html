@@ -1,124 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Shop</title>
-    <script src="javascipt/shop.js" defer></script>
-    <style>
-        body {
-            font-family: sans-serif;
-            background-color: #f2f2f2;
-            padding: 20px;
-        }
 
-        .product {
-            background: white;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/shop.css">
+    <script src="js/shop.js" defer></script>
 
-        button {
-            padding: 10px 20px;
-            border: none;
-            background-color: #008CBA;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+    <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="images/favicon/site.webmanifest">
 
-        button:hover {
-            background-color: #005f75;
-        }
-        header {
-    background: linear-gradient(90deg, #4f8cff 0%, #1e3c72 100%);
-    color: #fff;
-    padding: 32px 0;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(30, 60, 114, 0.1);
-    font-family: 'Segoe UI', Arial, sans-serif;
-}
-
-
-header .logo {
-    position: absolute;
-    left: 32px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2.5rem;
-    letter-spacing: 2px;
-    font-weight: 700;
-}
-
-header p {
-    margin: 8px 0 0 0;
-    font-size: 1.2rem;
-    font-weight: 400;
-    opacity: 0.85;
-}
-
-header button {
-    background: #fff;
-    color: #1e3c72;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 24px;
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 16px 8px 0 8px;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(30, 60, 114, 0.08);
-    
-}
-
-header button:hover,
-header button:focus {
-    background: #4f8cff;
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(30, 60, 114, 0.15);
-    outline: none;
-}
-header .logo img {
-    width: 48px;
-    height: 48px;
-    object-fit: contain;
-    display: block;
-}
-    </style>
+    <!-- tab bar color -->
+    <meta name="theme-color" id="theme-color-meta" content="#1b5cd5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" id="apple-status-bar-style" content="default">
 </head>
 <body>
-     <header>
-    
-    <a href="index.html">
-        <button>Home</button>
-    </a>
-    <a href="shop.html">
-        <button>Shop</button>
-    </a>
-    <a href="quest.html">
-        <button>Quest</button>
-    </a>
+<header>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="quest.html">Quest</a>
+    <a href="over-ons.html">Over Ons</a>
 </header>
-    <h1>🎮 Game Shop</h1>
-   <p>Jouw punten: <span id="puntenTeller">...</span></p>
+<main>
+<h1>🎮 Game Shop</h1>
+<p>Jouw punten: <span id="puntenTeller">...</span></p>
 
+<div class="product">
+    <h2>GTA vice city</h2>
+    <p>Kost: 1000 punten</p>
+    <button onclick="koopGame('Game 1', 1000, 'https://example.com/game1.zip')">Koop</button>
+</div>
 
-
-    <div class="product">
-        <h2>GTA vice city</h2>
-        <p>Kost: 1000 punten</p>
-        <button onclick="koopGame('Game 1', 1000, 'https://example.com/game1.zip')">Koop</button>
-    </div>
-
-    <div class="product">
-        <h2>Transport Fever 2</h2>
-        <p>Kost: 300 punten</p>
-        <button onclick="koopGame('Game 2', 300, 'https://example.com/game2.zip')">Koop</button>
-    </div>
+<div class="product">
+    <h2>Transport Fever 2</h2>
+    <p>Kost: 300 punten</p>
+    <button onclick="koopGame('Game 2', 300, 'https://example.com/game2.zip')">Koop</button>
+</div>
+</main>
 </body>
 </html>

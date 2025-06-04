@@ -26,7 +26,7 @@ function codeToNumber(code) {
 
 // Keys versleutelen
 const QUESTS_PER_DAY = 3;
-const QUEST_FILE = 'quest.json';
+const QUEST_FILE = 'data/quest.json';
 
 const dailyKey = numberToCode(2);      // bv 'osdb'
 const completedKey = numberToCode(3);  // bv 'osdc'

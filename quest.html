@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dagelijkse Quests</title>
-  <link rel="stylesheet" href="css/home.css">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/quest.css">
+  <script src="js/home.js" defer></script>
+
+  <!-- favicon -->
+  <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
+  <link rel="manifest" href="images/favicon/site.webmanifest">
+
+  <!-- tab bar color -->
+  <meta name="theme-color" id="theme-color-meta" content="#1b5cd5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" id="apple-status-bar-style" content="default">
 </head>
 <body>
-  <header>
-    
-    <a href="index.html">
-        <button>Home</button>
-    </a>
-    <a href="shop.html">
-        <button>Shop</button>
-    </a>
-    <a href="quest.html">
-        <button>Quest</button>
-    </a>
+<header>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="quest.html">Quest</a>
+    <a href="over-ons.html">Over Ons</a>
 </header>
-  <script src="javascipt/home.js"></script>
-  <h1>🎯 Dagelijkse Quests</h1>
+<main>
+  <h1>🎯 Dagelijkse Quests:</h1>
   <div id="quests">Loading...</div>
 
-  <h2>✅ Voltooide Quests</h2>
+  <h2>✅ Voltooide Quests:</h2>
   <ul id="completedQuests"></ul>
 
-  <p><strong>Totaal Punten:</strong> <span id="points">0</span></p>
-
-  
+  <p><strong>Totaal Punten:</strong> <span id="points">Loading...</span></p>
+</main>
 </body>
 </html>
