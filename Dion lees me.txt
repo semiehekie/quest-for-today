@@ -1,0 +1,10 @@
+hoi, ik ben bezig geweest met de site, zou je wat dingen voor me willen doen?
+
+eerst wou ik ff zeggen wat ik heb gedaan.
+ik heb een shop toegevoegd waar mensen games kunnen kopen. (van punten) de games die heb ik gepirate en die ga ik in een google drive zetten. 
+
+ik heb ook de site ipv laten werken met een iframe gw de code te kopieren en op de pagina te zetten.
+
+maar daardoor is alles wel een beetje rommilig geworden...
+
+zou je alles ff op orde willen zetten? want ik ben daar niet zo goed in. 
