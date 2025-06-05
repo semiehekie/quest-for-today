@@ -122,3 +122,11 @@ function renderCompleted() {
 }
 
 start();
+
+
+// controle voor de lancering
+//  const vandaag = new Date();
+ // const toegestaneDatum = new Date(vandaag.getFullYear(), 5, 6);
+ // if (vandaag < toegestaneDatum) {
+ //   window.location.href = "commingsoon.html";
+ // }

@@ -3,14 +3,21 @@ body, html {
     background-color: #f2f2f2;
     padding: 0;
     margin: 0;
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 main {
-    max-width: 1400px;
+    width: 80%;
     margin: 0 auto;
     padding: 24px;
+    flex: 1;
 }
-
 button {
     background-color: #4f8cff;
     color: white;
@@ -39,8 +46,8 @@ header {
     text-align: center;
     box-shadow: 0 2px 8px rgba(30, 60, 114, 0.1);
     font-family: 'Segoe UI', Arial, sans-serif;
+    position: relative;
 }
-
 
 header .logo {
     position: absolute;
@@ -78,7 +85,7 @@ header a {
 }
 
 header a:hover, header a:focus {
-    background: #4f8cff;
+    background: #1a63ea;
     color: #fff;
     box-shadow: 0 4px 12px rgba(30, 60, 114, 0.15);
     outline: none;
@@ -91,10 +98,98 @@ header .logo img {
     display: block;
 }
 
+footer {
+    background: #1b5cd5;
+    color: #fff;
+    text-align: center;
+    padding: 1em;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+}
+footer p {
+    margin: 0;
+}
+
 .product {
     background: white;
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* --- Mobile Responsive Styles --- */
+@media (max-width: 768px) {
+    main {
+        width: 90%;
+        text-align: center;
+    }
+
+    footer {
+        width: 100%;
+        margin: 0 auto;
+        padding: 1em 0;
+    }
+
+    header {
+        padding: 20px 0 20px 0;
+    }
+
+    header .logo {
+        position: static;
+        display: block;
+        margin: 0 auto 12px auto;
+        transform: none;
+    }
+
+    header .logo img {
+        width: 40px;
+        height: 40px;
+    }
+
+    header h1 {
+        font-size: 1.6rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
+
+    header a {
+        display: block;
+        width: 90%;
+        margin: 12px auto 0 auto;
+        font-size: 1rem;
+        padding: 10px 0;
+    }
+
+    button {
+        width: 90%;
+        font-size: 1rem;
+    }
+
+    .product {
+        padding: 10px;
+        margin-bottom: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 14px 0 40px 0;
+    }
+
+    header h1 {
+        font-size: 1.1rem;
+    }
+
+    header .logo img {
+        width: 32px;
+        height: 32px;
+    }
+
+    main {
+        padding: 6px;
+    }
 }

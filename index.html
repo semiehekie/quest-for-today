@@ -6,6 +6,7 @@
     <title>Quest for today</title>
 
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
     <script src="js/home.js" defer></script>
     <script src="js/shop.js" defer></script>
 
@@ -20,16 +21,6 @@
     <meta name="theme-color" id="theme-color-meta" content="#1b5cd5">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" id="apple-status-bar-style" content="default">
-<!-- Dion ik weet dat dit er niet zo netjes uit ziet, maar dit is tijdelijk. normaal moet dit in de home.js, maar dit is gw ff snelle oplossing -->
-<script>  
-  const vandaag = new Date();
-  const toegestaneDatum = new Date(vandaag.getFullYear(), 5, 6);
-  if (vandaag < toegestaneDatum) {
-    window.location.href = "commingsoon.html";
-  }
-</script>
-
-
 </head>
 <body>
 <header>
@@ -57,9 +48,12 @@
     <button onclick="koopGame('Game 2', 300, 'https://quest-for-today.web.app/games/tsf2.html')">Koop</button>
 </div>
 
-<p>Als de download link niet meer geldig is, mail dan naar diondoggervwo@gmail.com</p>
+<p>Als de download link niet meer geldig is, mail dan naar semhekman@gmail.com</p> <!-- sem het zijn jouw games niet die van mij dus regel die mails maar zelf-->
 
 </section>
 </main>
+<footer>
+    <p>&copy; <span id="datefooter"></span> Quest for Today. Alle rechten voorbehouden.</p>
+</footer>
 </body>
 </html>

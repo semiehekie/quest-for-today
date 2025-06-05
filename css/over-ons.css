@@ -30,18 +30,19 @@
     height: 64px;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 1px 6px rgba(27, 92, 213, 0.10);
-    border: 2px solid #e3eefd;
+    box-shadow: 0 1px 6px rgba(27, 92, 213, 0.5);
 }
 .team-member h3 {
     margin: 0 0 4px 0;
     font-size: 1.15rem;
     color: #1b5cd5;
+    text-align: left;
 }
 .team-member p {
     margin: 0;
     color: #444;
     font-size: 1rem;
+    text-align: left;
 }
 @media (max-width: 700px) {
     .team-list {
@@ -50,7 +51,7 @@
         gap: 20px;
     }
     .team-member {
-        max-width: 100%;
+        max-width: 90%;
     }
 }
 .about-container {
@@ -94,6 +95,50 @@
     color: #1b5cd5;
     text-decoration: underline;
 }
+
+.projects-section {
+    text-align: center;
+}
+
+    .projects-section h2 {
+        margin-bottom: 1.5rem;
+        color: #1b5cd5;
+        font-size: 2rem;
+    }
+    .projects-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+    .project-card {
+        background: #fff;
+        border: 1px solid #e0e7ff;
+        border-radius: 8px;
+        padding: 1.5rem;
+        flex: 1 1;
+        min-width: 220px;
+        box-shadow: 0 1px 4px rgba(27, 92, 213, 0.05);
+        transition: transform 0.15s;
+    }
+    .project-card:hover {
+        transform: translateY(-4px) scale(1.03);
+        box-shadow: 0 4px 16px rgba(27, 92, 213, 0.12);
+    }
+    .project-card h3 {
+        margin-top: 0;
+        color: #174bb1;
+        font-size: 1.2rem;
+    }
+    .project-card p {
+        margin-bottom: 0;
+        color: #333;
+        font-size: 1rem;
+    }
+    @media (max-width: 800px) {
+        .projects-list {
+            flex-direction: column;
+        }
+    }
 
 @media (max-width: 700px) {
     .about-content {
