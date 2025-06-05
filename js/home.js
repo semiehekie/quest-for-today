@@ -24,13 +24,14 @@ function codeToNumber(code) {
   return num;
 }
 
-// Keys versleutelen
+// Constants
 const QUESTS_PER_DAY = 3;
 const QUEST_FILE = 'data/quest.json';
 
 const dailyKey = numberToCode(2);      // bv 'osdb'
 const completedKey = numberToCode(3);  // bv 'osdc'
 const pointsKey = numberToCode(1);     // bv 'osda'
+const LAST_DATE_KEY = 'osd_date';
 
 let allQuests = [];
 let dailyQuests = [];
@@ -39,11 +40,18 @@ async function start() {
   const response = await fetch(QUEST_FILE);
   allQuests = await response.json();
 
-  dailyQuests = JSON.parse(localStorage.getItem(dailyKey));
-  if (!dailyQuests) {
+  const today = new Date().toISOString().slice(0, 10); // bijv. '2025-06-05'
+  const lastDate = localStorage.getItem(LAST_DATE_KEY);
+
+  if (lastDate !== today) {
+    // Nieuwe dag: ververs quests
     dailyQuests = getRandomQuests(allQuests, QUESTS_PER_DAY);
     localStorage.setItem(dailyKey, JSON.stringify(dailyQuests));
-    localStorage.setItem(completedKey, JSON.stringify([])); // reset voltooid
+    localStorage.setItem(completedKey, JSON.stringify([]));
+    localStorage.setItem(LAST_DATE_KEY, today);
+  } else {
+    // Zelfde dag: laad opgeslagen quests
+    dailyQuests = JSON.parse(localStorage.getItem(dailyKey)) || [];
   }
 
   renderQuests();
@@ -110,7 +118,7 @@ function renderCompleted() {
 
   let pointsCode = localStorage.getItem(pointsKey);
   let points = pointsCode ? codeToNumber(pointsCode) : 0;
-  document.getElementById('points').textContent = points;
+  document.getElementById('puntenTeller').textContent = points;
 }
 
 start();
