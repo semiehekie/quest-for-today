@@ -20,6 +20,16 @@
     <meta name="theme-color" id="theme-color-meta" content="#1b5cd5">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" id="apple-status-bar-style" content="default">
+<!-- Dion ik weet dat dit er niet zo netjes uit ziet, maar dit is tijdelijk. normaal moet dit in de home.js, maar dit is gw ff snelle oplossing -->
+<script>  
+  const vandaag = new Date();
+  const toegestaneDatum = new Date(vandaag.getFullYear(), 5, 6);
+  if (vandaag < toegestaneDatum) {
+    window.location.href = "commingsoon.html";
+  }
+</script>
+
+
 </head>
 <body>
 <header>
@@ -42,16 +52,13 @@
 <h1>🎮 Game Shop</h1>
 
 <div class="product">
-    <h2>GTA vice city</h2>
-    <p>Kost: 1000 punten</p>
-    <button onclick="koopGame('Game 1', 1000, 'https://example.com/game1.zip')">Koop</button>
-</div>
-
-<div class="product">
     <h2>Transport fever 2</h2>
     <p>Kost: 300 punten</p>
     <button onclick="koopGame('Game 2', 300, 'https://example.com/game2.zip')">Koop</button>
 </div>
+
+<p>Als de download link niet meer geldig is, mail dan naar diondoggervwo@gmail.com</p>
+
 </section>
 </main>
 </body>
