@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="nl">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Quest for Today</title>
+            <link rel="stylesheet" href="css/style.css">
+            <link rel="stylesheet" href="css/login.css">
+            <link rel="stylesheet" href="css/leaderboard.css">
+            <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico">
+
+            <!-- Favicon -->
+            <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico">
+            <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+            <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+            <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
+            <link rel="manifest" href="images/favicon/site.webmanifest">
+
+            <!-- Tab bar color -->
+            <meta name="theme-color" id="theme-color-meta" content="#1b5cd5">
+            <meta name="apple-mobile-web-app-capable" content="yes">
+            <meta name="apple-mobile-web-app-status-bar-style" id="apple-status-bar-style" content="default">
+
+            <!-- Scripts -->
+            <script src="js/script.js" defer></script>
+            <script src="js/leaderboard.js" defer></script>
+        </head>
+        <body>
+        <header>
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="quest.html">Quest</a>
+            <a href="over-ons.html">Over Ons</a>
+            <a href="leaderboard.html">Leaderboard</a>
+        </header>
+
+    <div class="container">
+
+        <!-- Leaderboard Content -->
+        <div id="leaderboard-content" class="admin-panel">
+            <h2>Top Spelers</h2>
+            <div id="error" class="message error" style="display: none;"></div>
+            <div id="users-container">
+                <!-- Users will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="datefooter"></span> Quest for Today. Alle rechten voorbehouden.</p>
+    </footer>
+
+</body>
+</html>

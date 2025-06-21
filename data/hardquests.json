@@ -1,0 +1,23 @@
+
+[
+  { "id": 101, "text": "Maak een volledig project voor een vak af", "points": 25 },
+  { "id": 102, "text": "Geef een presentatie van 10 minuten", "points": 30 },
+  { "id": 103, "text": "Schrijf een essay van 500 woorden", "points": 35 },
+  { "id": 104, "text": "Los 20 wiskundeopdrachten op", "points": 40 },
+  { "id": 105, "text": "Leer een volledig hoofdstuk uit je hoofd", "points": 45 },
+  { "id": 106, "text": "Maak een samenvatting van 5 hoofdstukken", "points": 50 },
+  { "id": 107, "text": "Organiseer een studiegroep met klasgenoten", "points": 35 },
+  { "id": 108, "text": "Maak een mindmap van een heel onderwerp", "points": 30 },
+  { "id": 109, "text": "Haal een 8+ voor een toets", "points": 60 },
+  { "id": 110, "text": "Help 3 klasgenoten met hun huiswerk", "points": 40 },
+  { "id": 111, "text": "Lees een heel boek voor Nederlands", "points": 80 },
+  { "id": 112, "text": "Maak alle huiswerk voor de hele week af", "points": 70 },
+  { "id": 113, "text": "Doe extra onderzoek voor een project", "points": 45 },
+  { "id": 114, "text": "Leer 50 nieuwe woorden voor een taalvak", "points": 55 },
+  { "id": 115, "text": "Maak een complete studiegids voor een vak", "points": 65 },
+  { "id": 116, "text": "Houd een week lang bij wat je leert", "points": 40 },
+  { "id": 117, "text": "Maak een educatieve video over schoolstof", "points": 75 },
+  { "id": 118, "text": "Organiseer je hele kamer/studeerplek", "points": 35 },
+  { "id": 119, "text": "Plan je hele schoolmaand in detail", "points": 50 },
+  { "id": 120, "text": "Word mentor voor een jongere leerling", "points": 85 }
+]

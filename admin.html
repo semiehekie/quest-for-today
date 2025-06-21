@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Quest for Today</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Quest for Today - Admin Panel</h1>
+            <a href="index.html" class="home-btn">← Terug naar Home</a>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login-section" class="admin-panel">
+            <div class="login-form">
+                <h2>Admin Login</h2>
+                <div class="form-group">
+                    <label for="adminPassword">Admin Wachtwoord:</label>
+                    <input type="password" id="adminPassword" placeholder="Voer admin wachtwoord in">
+                </div>
+                <button class="btn btn-primary" onclick="adminLogin()">Inloggen</button>
+                <div id="login-error" class="message error" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Admin Content -->
+        <div id="admin-content" class="admin-panel">
+            <h2>Gebruikersbeheer</h2>
+            <div id="message" class="message success" style="display: none;"></div>
+            <div id="error" class="message error" style="display: none;"></div>
+            
+            <button class="btn btn-primary" onclick="loadUsers()">Gebruikers Vernieuwen</button>
+            
+            <div id="users-container">
+                <!-- Users will be loaded here -->
+            </div>
+
+            <!-- Admin Settings -->
+            <div class="admin-settings">
+                <h3>Admin Instellingen</h3>
+                <div class="settings-form">
+                    <div class="form-group">
+                        <label for="newAdminPassword">Nieuw Admin Wachtwoord:</label>
+                        <input type="password" id="newAdminPassword" placeholder="Nieuw wachtwoord (min. 6 karakters)">
+                    </div>
+                    <button class="btn btn-primary" onclick="updateAdminPassword()">Wachtwoord Bijwerken</button>
+                </div>
+                
+                <div class="database-backup">
+                    <h3>Database Beheer</h3>
+                    <button class="btn btn-success" onclick="downloadDatabase()">Database Downloaden</button>
+                    <p class="backup-info">Download een backup van de complete database (SQLite bestand)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="datefooter"></span> Quest for Today. Alle rechten voorbehouden.</p>
+    </footer>
+
+    <script>
+        // Set footer year
+        document.getElementById('datefooter').textContent = new Date().getFullYear();
+        let currentAdminPassword = '';
+
+        async function adminLogin() {
+            const password = document.getElementById('adminPassword').value;
+            const errorDiv = document.getElementById('login-error');
+            
+            if (!password) {
+                showLoginError('Voer een wachtwoord in');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin/users', {
+                    headers: {
+                        'admin-password': password
+                    }
+                });
+
+                if (response.ok) {
+                    currentAdminPassword = password;
+                    document.getElementById('login-section').style.display = 'none';
+                    document.getElementById('admin-content').style.display = 'block';
+                    loadUsers();
+                    loadAdminSettings();
+                } else {
+                    showLoginError('Onjuist wachtwoord');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showLoginError('Er is een fout opgetreden');
+            }
+        }
+
+        function showLoginError(message) {
+            const errorDiv = document.getElementById('login-error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/admin/users', {
+                    headers: {
+                        'admin-password': currentAdminPassword
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load users');
+                }
+
+                const users = await response.json();
+                displayUsers(users);
+            } catch (error) {
+                console.error('Error loading users:', error);
+                showError('Fout bij laden van gebruikers');
+            }
+        }
+
+        function displayUsers(users) {
+            const container = document.getElementById('users-container');
+            
+            if (users.length === 0) {
+                container.innerHTML = '<p>Geen gebruikers gevonden.</p>';
+                return;
+            }
+
+            const table = document.createElement('table');
+            table.className = 'users-table';
+            
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Naam</th>
+                        <th>Wachtwoord</th>
+                        <th>Punten</th>
+                        <th>Acties</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            `;
+
+            const tbody = table.querySelector('tbody');
+            
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.naam}</td>
+                    <td>${user.wachtwoord}</td>
+                    <td>${user.punten.toLocaleString()}</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="editUser(${user.id})">Bewerken</button>
+                        <button class="btn btn-danger" onclick="deleteUser(${user.id}, '${user.naam}')">Verwijderen</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+
+                // Add edit row
+                const editRow = document.createElement('tr');
+                editRow.id = 'edit-row-' + user.id;
+                editRow.style.display = 'none';
+                editRow.innerHTML = `
+                    <td colspan="5">
+                        <div class="edit-form">
+                            <h4>Bewerk gebruiker ${user.naam}</h4>
+                            <div class="form-group">
+                                <label>Naam:</label>
+                                <input type="text" id="edit-naam-${user.id}" value="${user.naam}" placeholder="Naam">
+                            </div>
+                            <div class="form-group">
+                                <label>Wachtwoord:</label>
+                                <input type="text" id="edit-wachtwoord-${user.id}" value="${user.wachtwoord}" placeholder="Wachtwoord">
+                            </div>
+                            <div class="form-group">
+                                <label>Punten:</label>
+                                <input type="number" id="edit-punten-${user.id}" value="${user.punten}" placeholder="Punten">
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <button class="btn btn-save" onclick="saveUser(${user.id})">Opslaan</button>
+                                <button class="btn btn-cancel" onclick="cancelEdit(${user.id})">Annuleren</button>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(editRow);
+            });
+
+            container.innerHTML = '';
+            container.appendChild(table);
+            clearMessages();
+        }
+
+        function editUser(userId) {
+            const editRow = document.getElementById('edit-row-' + userId);
+            const isVisible = editRow.style.display !== 'none';
+            
+            // Hide all edit rows first
+            document.querySelectorAll('[id^="edit-row-"]').forEach(row => {
+                row.style.display = 'none';
+            });
+            
+            // Show this edit row if it wasn't visible
+            if (!isVisible) {
+                editRow.style.display = 'table-row';
+            }
+        }
+
+        function cancelEdit(userId) {
+            document.getElementById('edit-row-' + userId).style.display = 'none';
+        }
+
+        async function saveUser(userId) {
+            const naam = document.getElementById('edit-naam-' + userId).value.trim();
+            const wachtwoord = document.getElementById('edit-wachtwoord-' + userId).value.trim();
+            const puntenInput = document.getElementById('edit-punten-' + userId).value;
+            
+            if (!naam || !wachtwoord || !puntenInput) {
+                showError('Alle velden zijn verplicht');
+                return;
+            }
+            
+            const punten = parseInt(puntenInput);
+            if (isNaN(punten)) {
+                showError('Punten moet een geldig getal zijn');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin/update-user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'admin-password': currentAdminPassword
+                    },
+                    body: JSON.stringify({
+                        userId: userId,
+                        naam: naam,
+                        wachtwoord: wachtwoord,
+                        punten: punten
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showMessage('Gebruiker succesvol bijgewerkt');
+                    cancelEdit(userId);
+                    loadUsers();
+                } else {
+                    showError(result.error || 'Fout bij bijwerken van gebruiker');
+                }
+            } catch (error) {
+                console.error('Save error:', error);
+                showError('Fout bij bijwerken van gebruiker');
+            }
+        }
+
+        async function deleteUser(userId, userName) {
+            if (!confirm(`Weet je zeker dat je gebruiker "${userName}" wilt verwijderen?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/admin/delete-user/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'admin-password': currentAdminPassword
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showMessage('Gebruiker succesvol verwijderd');
+                    loadUsers();
+                } else {
+                    showError(result.error || 'Fout bij verwijderen van gebruiker');
+                }
+            } catch (error) {
+                console.error('Delete error:', error);
+                showError('Fout bij verwijderen van gebruiker');
+            }
+        }
+
+        async function loadAdminSettings() {
+            try {
+                const response = await fetch('/api/admin/settings', {
+                    headers: {
+                        'admin-password': currentAdminPassword
+                    }
+                });
+
+                if (response.ok) {
+                    const settings = await response.json();
+                    // Settings loaded successfully
+                }
+            } catch (error) {
+                console.error('Error loading admin settings:', error);
+            }
+        }
+
+        async function updateAdminPassword() {
+            const newPassword = document.getElementById('newAdminPassword').value.trim();
+            
+            if (!newPassword) {
+                showError('Voer een nieuw wachtwoord in');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                showError('Wachtwoord moet minimaal 6 karakters lang zijn');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin/update-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'admin-password': currentAdminPassword
+                    },
+                    body: JSON.stringify({
+                        newPassword: newPassword
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    currentAdminPassword = newPassword;
+                    document.getElementById('newAdminPassword').value = '';
+                    showMessage('Admin wachtwoord succesvol bijgewerkt');
+                } else {
+                    showError(result.error || 'Fout bij bijwerken van wachtwoord');
+                }
+            } catch (error) {
+                console.error('Password update error:', error);
+                showError('Fout bij bijwerken van wachtwoord');
+            }
+        }
+
+        function showMessage(message) {
+            clearMessages();
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = message;
+            messageDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showError(message) {
+            clearMessages();
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function clearMessages() {
+            document.getElementById('message').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+        }
+
+        async function downloadDatabase() {
+            try {
+                const response = await fetch('/api/admin/download-database', {
+                    method: 'GET',
+                    headers: {
+                        'admin-password': currentAdminPassword
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Database download failed');
+                }
+
+                // Create download link
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `database.sqlite`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+                showMessage('Database succesvol gedownload');
+            } catch (error) {
+                console.error('Database download error:', error);
+                showError('Fout bij downloaden van database');
+            }
+        }
+
+        // Handle Enter key in password field
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    adminLogin();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

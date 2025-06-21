@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quest for today</title>
-
+    <title>Quest for Today</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/script.js" defer></script>
-    <script src="js/home.js" defer></script>
-    <script src="js/shop.js" defer></script>
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico">
 
-    <!-- favicon -->
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
     <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
     <link rel="manifest" href="images/favicon/site.webmanifest">
 
-    <!-- tab bar color -->
+    <!-- Tab bar color -->
     <meta name="theme-color" id="theme-color-meta" content="#1b5cd5">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" id="apple-status-bar-style" content="default">
+
+    <!-- Scripts -->
+    <script src="js/script.js" defer></script>
+    <script src="js/home.js" defer></script>
+    <script src="js/shop.js" defer></script>
+    <script src="js/login.js" defer></script>
+    <script src="serverjs" defer></script>
 </head>
 <body>
 <header>
@@ -28,36 +33,71 @@
     <a href="shop.html">Shop</a>
     <a href="quest.html">Quest</a>
     <a href="over-ons.html">Over Ons</a>
+    <a href="leaderboard.html">Leaderboard</a>
 </header>
 <main>
+    <div class="login-section">
+        <button id="loginBtn" class="login-btn">Inloggen / Registreren</button>
+        <span id="gebruikerNaam" class="gebruiker-naam" style="display:none;"></span>
+        <button id="logoutBtn" class="logout-btn" style="display:none;" onclick="uitloggen()">Uitloggen</button>
+    </div>
+
     <p>Jouw punten: <span id="puntenTeller">...</span></p>
-<section>  
-<h1>🎯 Dagelijkse Quests:</h1>
-<div id="quests">Loading...</div>
 
-<h2>✅ Voltooide Quests:</h2>
-<ul id="completedQuests"></ul>
+    <!-- Login/Register Modal -->
+    <div id="loginModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
 
-</section>
-<section>
-<h1>🎮 Game Shop</h1>
+            <div class="login-tabs">
+                <button class="tab-btn active" onclick="showTab('login')">Inloggen</button>
+                <button class="tab-btn" onclick="showTab('register')">Registreren</button>
+            </div>
 
-<div class="product">
-    <h2>Transport fever 2 (pc only)</h2>
-    <p>Kost: 300 punten</p>
-    <button onclick="koopGame('Game 2', 300, 'https://quest-for-today.web.app/games/tsf2.html')">Koop</button>
-</div>
+            <form id="loginForm" class="tab-content active">
+                <h3>Inloggen</h3>
+                <input type="text" id="loginNaam" placeholder="Gebruikersnaam" required>
+                <input type="password" id="loginWachtwoord" placeholder="Wachtwoord" required>
+                <button type="submit">Inloggen</button>
+            </form>
 
-<div class="product">
-    <h2>Bus Driver Simulator (pc only)</h2>
-    <p>Kost: 500 punten</p>
-    <button onclick="koopGame('Game 2', 500, 'https://quest-for-today.web.app/games/bds.html')">Koop</button>
-</div>
-
-<p>Als de download link niet meer geldig is, mail dan naar semhekman@gmail.com</p> <!-- sem het zijn jouw games niet die van mij dus regel die mails maar zelf-->
-
-</section>
+            <form id="registerForm" class="tab-content">
+                <h3>Registreren</h3>
+                <input type="text" id="registerNaam" placeholder="Gebruikersnaam" required>
+                <input type="password" id="registerWachtwoord" placeholder="Wachtwoord" required>
+                <button type="submit">Registreren</button>
+            </form>
+        </div>
+    </div>
 </main>
+
+<section>  
+    <h1>🎯 Dagelijkse Quests:</h1>
+    <div id="quests">Loading...</div>
+    <div id="rerollContainer"></div> <!-- Toegevoegd voor reroll knop -->
+
+    <h2>✅ Voltooide Quests:</h2>
+    <ul id="completedQuests"></ul>
+</section>
+
+<section>
+    <h1>🎮 Game Shop</h1>
+
+    <div class="product">
+        <h2>Transport fever 2 (pc only)</h2>
+        <p>Kost: 300 punten</p>
+        <button onclick="koopGame('Transport fever 2', 300, 'https://quest-for-today.web.app/games/tsf2.html')">Koop</button>
+    </div>
+
+    <div class="product">
+        <h2>Bus Driver Simulator (pc only)</h2>
+        <p>Kost: 500 punten</p>
+        <button onclick="koopGame('Bus Driver Simulator', 500, 'https://quest-for-today.web.app/games/bds.html')">Koop</button>
+    </div>
+
+    <p>Als de download link niet meer geldig is, mail dan naar semhekman@gmail.com</p>
+</section>
+
 <footer>
     <p>&copy; <span id="datefooter"></span> Quest for Today. Alle rechten voorbehouden.</p>
 </footer>
