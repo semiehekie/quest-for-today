@@ -31,9 +31,9 @@
             <h2>Gebruikersbeheer</h2>
             <div id="message" class="message success" style="display: none;"></div>
             <div id="error" class="message error" style="display: none;"></div>
-            
+
             <button class="btn btn-primary" onclick="loadUsers()">Gebruikers Vernieuwen</button>
-            
+
             <div id="users-container">
                 <!-- Users will be loaded here -->
             </div>
@@ -48,11 +48,21 @@
                     </div>
                     <button class="btn btn-primary" onclick="updateAdminPassword()">Wachtwoord Bijwerken</button>
                 </div>
-                
+
                 <div class="database-backup">
                     <h3>Database Beheer</h3>
                     <button class="btn btn-success" onclick="downloadDatabase()">Database Downloaden</button>
+                    <div class="upload-section">
+                        <input type="file" id="databaseFile" accept=".sqlite,.db" style="display: none;">
+                        <button class="btn btn-primary" onclick="document.getElementById('databaseFile').click()">Database Uploaden</button>
+                        <p class="backup-info">Upload een database bestand om de huidige te vervangen</p>
+                    </div>
                     <p class="backup-info">Download een backup van de complete database (SQLite bestand)</p>
+                </div>
+
+                <div class="tools-section">
+                    <h3>Tools</h3>
+                    <a href="bestanden.html" class="btn btn-primary">Bestanden Viewer</a>
                 </div>
             </div>
         </div>
@@ -70,7 +80,7 @@
         async function adminLogin() {
             const password = document.getElementById('adminPassword').value;
             const errorDiv = document.getElementById('login-error');
-            
+
             if (!password) {
                 showLoginError('Voer een wachtwoord in');
                 return;
@@ -126,15 +136,19 @@
 
         function displayUsers(users) {
             const container = document.getElementById('users-container');
-            
+
             if (users.length === 0) {
                 container.innerHTML = '<p>Geen gebruikers gevonden.</p>';
                 return;
             }
 
+            const title = "Top 10 Gebruikers";
+            const titleElement = document.createElement('h3');
+            titleElement.textContent = title;
+
             const table = document.createElement('table');
             table.className = 'users-table';
-            
+
             table.innerHTML = `
                 <thead>
                     <tr>
@@ -142,6 +156,7 @@
                         <th>Naam</th>
                         <th>Wachtwoord</th>
                         <th>Punten</th>
+                        <th>Zichtbaar</th>
                         <th>Acties</th>
                     </tr>
                 </thead>
@@ -149,7 +164,7 @@
             `;
 
             const tbody = table.querySelector('tbody');
-            
+
             users.forEach(user => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -157,6 +172,7 @@
                     <td>${user.naam}</td>
                     <td>${user.wachtwoord}</td>
                     <td>${user.punten.toLocaleString()}</td>
+                    <td>${user.zichtbaar ? 'Ja' : 'Nee'}</td>
                     <td>
                         <button class="btn btn-primary" onclick="editUser(${user.id})">Bewerken</button>
                         <button class="btn btn-danger" onclick="deleteUser(${user.id}, '${user.naam}')">Verwijderen</button>
@@ -184,6 +200,13 @@
                                 <label>Punten:</label>
                                 <input type="number" id="edit-punten-${user.id}" value="${user.punten}" placeholder="Punten">
                             </div>
+                            <div class="form-group">
+                                <label>Zichtbaar op leaderboard:</label>
+                                <select id="edit-zichtbaar-${user.id}">
+                                    <option value="1" ${user.zichtbaar ? 'selected' : ''}>Ja</option>
+                                    <option value="0" ${!user.zichtbaar ? 'selected' : ''}>Nee</option>
+                                </select>
+                            </div>
                             <div style="margin-top: 15px;">
                                 <button class="btn btn-save" onclick="saveUser(${user.id})">Opslaan</button>
                                 <button class="btn btn-cancel" onclick="cancelEdit(${user.id})">Annuleren</button>
@@ -195,6 +218,7 @@
             });
 
             container.innerHTML = '';
+            container.appendChild(titleElement);
             container.appendChild(table);
             clearMessages();
         }
@@ -202,12 +226,12 @@
         function editUser(userId) {
             const editRow = document.getElementById('edit-row-' + userId);
             const isVisible = editRow.style.display !== 'none';
-            
+
             // Hide all edit rows first
             document.querySelectorAll('[id^="edit-row-"]').forEach(row => {
                 row.style.display = 'none';
             });
-            
+
             // Show this edit row if it wasn't visible
             if (!isVisible) {
                 editRow.style.display = 'table-row';
@@ -222,12 +246,13 @@
             const naam = document.getElementById('edit-naam-' + userId).value.trim();
             const wachtwoord = document.getElementById('edit-wachtwoord-' + userId).value.trim();
             const puntenInput = document.getElementById('edit-punten-' + userId).value;
-            
+            const zichtbaar = parseInt(document.getElementById('edit-zichtbaar-' + userId).value);
+
             if (!naam || !wachtwoord || !puntenInput) {
                 showError('Alle velden zijn verplicht');
                 return;
             }
-            
+
             const punten = parseInt(puntenInput);
             if (isNaN(punten)) {
                 showError('Punten moet een geldig getal zijn');
@@ -245,12 +270,13 @@
                         userId: userId,
                         naam: naam,
                         wachtwoord: wachtwoord,
-                        punten: punten
+                        punten: punten,
+                        zichtbaar: zichtbaar
                     })
                 });
 
                 const result = await response.json();
-                
+
                 if (response.ok) {
                     showMessage('Gebruiker succesvol bijgewerkt');
                     cancelEdit(userId);
@@ -278,7 +304,7 @@
                 });
 
                 const result = await response.json();
-                
+
                 if (response.ok) {
                     showMessage('Gebruiker succesvol verwijderd');
                     loadUsers();
@@ -310,12 +336,12 @@
 
         async function updateAdminPassword() {
             const newPassword = document.getElementById('newAdminPassword').value.trim();
-            
+
             if (!newPassword) {
                 showError('Voer een nieuw wachtwoord in');
                 return;
             }
-            
+
             if (newPassword.length < 6) {
                 showError('Wachtwoord moet minimaal 6 karakters lang zijn');
                 return;
@@ -334,7 +360,7 @@
                 });
 
                 const result = await response.json();
-                
+
                 if (response.ok) {
                     currentAdminPassword = newPassword;
                     document.getElementById('newAdminPassword').value = '';
@@ -353,7 +379,7 @@
             const messageDiv = document.getElementById('message');
             messageDiv.textContent = message;
             messageDiv.style.display = 'block';
-            
+
             setTimeout(() => {
                 messageDiv.style.display = 'none';
             }, 5000);
@@ -364,7 +390,7 @@
             const errorDiv = document.getElementById('error');
             errorDiv.textContent = message;
             errorDiv.style.display = 'block';
-            
+
             setTimeout(() => {
                 errorDiv.style.display = 'none';
             }, 5000);
@@ -406,6 +432,51 @@
             }
         }
 
+        async function uploadDatabase() {
+            const fileInput = document.getElementById('databaseFile');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                showError('Selecteer eerst een database bestand');
+                return;
+            }
+
+            if (!confirm('Weet je zeker dat je de huidige database wilt vervangen? Dit kan niet ongedaan worden gemaakt.')) {
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('database', file);
+
+            try {
+                const response = await fetch('/api/admin/upload-database', {
+                    method: 'POST',
+                    headers: {
+                        'admin-password': currentAdminPassword
+                    },
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showMessage('Database succesvol geüpload en vervangen');
+                    fileInput.value = ''; // Clear file input
+                    // Reload page to reconnect to new database
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    showError(result.error || 'Fout bij uploaden van database');
+                }
+            } catch (error) {
+                console.error('Database upload error:', error);
+                showError('Fout bij uploaden van database');
+            }
+        }
+
+        
+
         // Handle Enter key in password field
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('adminPassword').addEventListener('keypress', function(e) {
@@ -413,6 +484,15 @@
                     adminLogin();
                 }
             });
+
+            // Handle database file selection
+            document.getElementById('databaseFile').addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    uploadDatabase();
+                }
+            });
+
+            
         });
     </script>
 </body>

@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/node": "^22.13.11",
     "express": "^5.1.0",
+    "multer": "^2.0.1",
     "mysql2": "^3.14.1",
     "pg": "^8.16.0",
     "sqlite3": "^5.1.7"
